@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'snippets.apps.SnippetsConfig',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,8 +42,6 @@ INSTALLED_APPS = [
 
     'django_extensions',
     'rest_framework',
-    'snippets.apps.SnippetsConfig',
-
 ]
 
 MIDDLEWARE = [
