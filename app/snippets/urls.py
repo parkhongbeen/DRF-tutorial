@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .apis import api_view
+from .apis import api_view, mixins
 
 app_name = 'snippets'
 urlpatterns = [
@@ -8,6 +8,6 @@ urlpatterns = [
     # path('snippets/<int:pk>/', views.snippet_detail),
 
     # Class-based view를 사용하는 경우, as_view()함수를 호출
-    path('snippets/', api_view.SnippetListCreateAPIView.as_view()),
-    path('snippets/<int:pk>/', api_view.SnippetRetrieveUpdateDestroyAPIView.as_view()),
+    path('snippets/', mixins.SnippetListCreateAPIView.as_view()),
+    path('snippets/<int:pk>/', mixins.SnippetRetrieveUpdateDestroyAPIView.as_view()),
 ]
