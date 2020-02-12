@@ -11,11 +11,11 @@ class SnippetListCreateAPIView(mixins.ListModelMixin,
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
 
-    def get(self, reqeust, *args, **kwargs):
-        return self.list(reqeust, *args, **kwargs)
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
 
-    def post(self, reqeust, *args, **kwargs):
-        return self.create(reqeust, *args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        return self.create(request, *args, **kwargs)
 
 
 class SnippetRetrieveUpdateDestroyAPIView(mixins.RetrieveModelMixin,
