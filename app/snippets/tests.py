@@ -55,11 +55,16 @@ class SnippetTest(APITestCase):
         url = '/api-view/snippets/'
 
         # Snippet객체를 만들기 위해 클라이언트로부터 전달된 JSON객체를 Parse한 Python객체
-        user = baker.make(User)
         data = {
-            'author': user.pk(),
             'code': 'def abc():',
         }
+        # 인증이 안되어 있으면 실패함을 기대
+        response = self.client.post(url, data=data)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+        # 특정 유저로 인증된 상태라면, 생성됨을 기대
+        user = baker.make(User)
+        self.client.force_authenticate(user)
         response = self.client.post(url, data=data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
