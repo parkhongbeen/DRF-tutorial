@@ -3,9 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="737149f1-2eea-482c-8b06-ff173ee5d845" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/snippets/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/snippets/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/snippets/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/snippets/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/snippets/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/snippets/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/snippets/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/snippets/migrations/0002_snippet_author.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,10 +56,10 @@
       <screen x="0" y="0" width="1280" height="800" />
     </state>
     <state x="427" y="161" key="FileChooserDialogImpl/0.0.1280.800@0.0.1280.800" timestamp="1581396151314" />
-    <state x="141" y="39" key="SettingsEditor" timestamp="1581396159075">
+    <state x="141" y="39" key="SettingsEditor" timestamp="1581569118504">
       <screen x="0" y="0" width="1280" height="800" />
     </state>
-    <state x="141" y="39" key="SettingsEditor/0.0.1280.800@0.0.1280.800" timestamp="1581396159075" />
+    <state x="141" y="39" key="SettingsEditor/0.0.1280.800@0.0.1280.800" timestamp="1581569118504" />
     <state x="180" y="210" key="com.intellij.ide.util.TipDialog" timestamp="1581567054242">
       <screen x="0" y="23" width="1280" height="710" />
     </state>

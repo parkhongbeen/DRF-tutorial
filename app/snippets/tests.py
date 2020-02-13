@@ -1,8 +1,10 @@
 from random import random
 
+from model_bakery import baker
 from rest_framework import status
 from rest_framework.test import APITestCase
 
+from members.models import User
 from snippets.models import Snippet
 from snippets.serializers import SnippetSerializer
 
@@ -22,20 +24,19 @@ class SnippetTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 0)
 
-        for i in range(5):
-            Snippet.objects.create(code='1')
+        baker.make(Snippet, _quantity=5)
+
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 5)
 
         for snippet_data in response.data:
+            self.assertIn('author', snippet_data)
             self.assertIn('title', snippet_data)
             self.assertIn('code', snippet_data)
             self.assertIn('linenos', snippet_data)
             self.assertIn('language', snippet_data)
             self.assertIn('style', snippet_data)
-
-            self.assertEqual('1', snippet_data['code'])
 
             # 전달된 Snippet object(dict)의 'pk'에 해당하는
             # 실제 Snippet model instance를
@@ -54,8 +55,10 @@ class SnippetTest(APITestCase):
         url = '/api-view/snippets/'
 
         # Snippet객체를 만들기 위해 클라이언트로부터 전달된 JSON객체를 Parse한 Python객체
+        user = baker.make(User)
         data = {
-            'code': 'def abc()'
+            'author': user.pk(),
+            'code': 'def abc():',
         }
         response = self.client.post(url, data=data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -73,16 +76,13 @@ class SnippetTest(APITestCase):
         self.assertEqual(snippet.objects.count(), 1)
 
     def test_snippet_delete(self):
-        # 미리 객체를 5개 만들어 놓는다.
+        # 미리 객체를 5개 만들어놓는다
         # delete API를 적절히 실행 한 후, 객체가 4개가 되었는지 확인
         # 지운 객체가 실제로 존재하지 않는지 확인
-        snippets = [Snippet.objects.create(code='1') for i in range(5)]
-        self.assertEqual(Snippet.objects.count(), 5)
-
+        snippets = baker.make(Snippet, _quantity=5)
         snippet = random.choice(snippets)
-        url = f'/api-view/snippets/{snippet.pk}'
+        url = f'/api-view/snippets/{snippet.pk}/'
         response = self.client.delete(url)
-
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Snippet.objects.count(), 4)
-        self.assertFalse(snippet.objects.fileter(pk=snippet.pk.exists()))
+        self.assertFalse(Snippet.objects.filter(pk=snippet.pk).exists())
