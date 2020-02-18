@@ -26,6 +26,8 @@ class SnippetCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Snippet
         fields = (
+            'pk',
+            'author',
             'title',
             'code',
             'linenos',

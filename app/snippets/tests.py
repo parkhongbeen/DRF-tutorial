@@ -1,4 +1,4 @@
-from random import random
+import random
 
 from model_bakery import baker
 from rest_framework import status
@@ -78,7 +78,7 @@ class SnippetTest(APITestCase):
         )
 
         # 객체를 하나 생성했으니, 전체 Snippet객체의 개수가 1개인지 확인(ORM)
-        self.assertEqual(snippet.objects.count(), 1)
+        self.assertEqual(Snippet.objects.count(), 1)
 
     def test_snippet_delete(self):
         # 미리 객체를 5개 만들어놓는다
