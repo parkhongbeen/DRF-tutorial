@@ -1,12 +1,13 @@
 from rest_framework import serializers
+
 from .models import Snippet
 
 
 # Post
-#   List        PostSerializer
-#   Retrieve    PostDetaukSerializer
-#   Update      PostUpdateSerializer
-#   Create      PostCreateSerializer
+#  List         PostSerializer
+#  Retrieve     PostDetailSerializer
+#  Update       PostUpdateSerializer
+#  Create       PostCreateSerializer
 class SnippetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Snippet
@@ -26,8 +27,6 @@ class SnippetCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Snippet
         fields = (
-            'pk',
-            'author',
             'title',
             'code',
             'linenos',
@@ -36,5 +35,5 @@ class SnippetCreateSerializer(serializers.ModelSerializer):
             'created',
         )
 
-        def to_representation(self, instance):
-            return SnippetSerializer(instance).date
+    def to_representation(self, instance):
+        return SnippetSerializer(instance).data

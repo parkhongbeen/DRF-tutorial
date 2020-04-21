@@ -11,12 +11,10 @@ from snippets.serializers import SnippetSerializer
 
 class SnippetTest(APITestCase):
     """
-    Postman이 하는일을 코드로 자동
+    Postman이 하는일을 코드로 자동화
     DB는 분리됨
     """
-
     def test_snippet_list(self):
-        # 앞의 localhost8000은 제외하고 작성
         url = '/api-view/snippets/'
         # self.client = requests와 같은 역할
         response = self.client.get(url)
@@ -24,6 +22,7 @@ class SnippetTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 0)
 
+        # 5개의 Snippet을 만들고 응답의 객체 개수 비교
         baker.make(Snippet, _quantity=5)
 
         response = self.client.get(url)
@@ -40,12 +39,12 @@ class SnippetTest(APITestCase):
 
             # 전달된 Snippet object(dict)의 'pk'에 해당하는
             # 실제 Snippet model instance를
-            # Snippetserializer를 통해 serializer한 값과 snippet_data가 같은지 비교
+            # SnippetSerializer를 통해 serialize한 값과 snippet_data가 같은지 비교
             pk = snippet_data['pk']
             snippet = Snippet.objects.get(pk=pk)
             self.assertEqual(
                 SnippetSerializer(snippet).data,
-                snippet_data
+                snippet_data,
             )
 
     def test_snippet_create(self):
@@ -53,23 +52,21 @@ class SnippetTest(APITestCase):
         Snippet객체를 만든다
         """
         url = '/api-view/snippets/'
-
-        # Snippet객체를 만들기 위해 클라이언트로부터 전달된 JSON객체를 Parse한 Python객체
         data = {
             'code': 'def abc():',
         }
-        # 인증이 안되어 있으면 실패함을 기대
+        # 인증이 안 되어 있으면 실패함을 기대
         response = self.client.post(url, data=data)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
-        # 특정 유저로 인증된 상태라면, 생성됨을 기대
+        # 특정 유저로 인증 된 상태라면, 생성됨을 기대
         user = baker.make(User)
         self.client.force_authenticate(user)
         response = self.client.post(url, data=data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         # 응답에 돌아온 객체가 SnippetSerializer로
-        # 실제 Model instance를 serializer한 결과와 같은지 확인
+        #  실제 Model instance를 serialize한 결과와 같은지 확인
         pk = response.data['pk']
         snippet = Snippet.objects.get(pk=pk)
         self.assertEqual(
@@ -88,6 +85,7 @@ class SnippetTest(APITestCase):
         snippet = random.choice(snippets)
         url = f'/api-view/snippets/{snippet.pk}/'
         response = self.client.delete(url)
+
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertEqual(Snippet.objects.count(), 4)
         self.assertFalse(Snippet.objects.filter(pk=snippet.pk).exists())
